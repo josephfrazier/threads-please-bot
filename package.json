@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "botkit": "^0.6.21",
+    "dotenv": "^6.2.0"
+  }
+}
