@@ -41,6 +41,7 @@ controller.setupWebserver(process.env.PORT, function(err, webserver){
 });
 
 controller.hears('hi', 'ambient', function(bot, message) {
+  console.log({message})
  bot.reply(message,'Hello.');
 });
 
