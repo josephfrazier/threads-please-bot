@@ -40,9 +40,32 @@ controller.setupWebserver(process.env.PORT, function(err, webserver){
    });
 });
 
-controller.hears('hi', 'ambient', function(bot, message) {
-  console.log({message})
- bot.reply(message,'Hello.');
+const topLevelTimestamps = {};
+
+controller.hears('.*', 'ambient', function(bot, message) {
+  console.log({ message });
+
+  if (message.thread_ts) {
+    console.log('ignoring message in thread');
+    return;
+  }
+
+  const { user, channel } = message;
+  const userChannel = user + channel;
+
+  const nextTopLevelTimestamp = Number(message.ts)
+
+  const previousTopLevelTimestamp = topLevelTimestamps[userChannel];
+  topLevelTimestamps[userChannel] = nextTopLevelTimestamp;
+
+  if (!previousTopLevelTimestamp) {
+    console.log('ignoring first message seen in channel')
+    return;
+  }
+
+  if (nextTopLevelTimestamp - previousTopLevelTimestamp < 10) {
+    bot.replyInThread(message, 'threads please');
+  }
 });
 
 controller.hears('webhook', 'direct_message', function(bot, message) {
