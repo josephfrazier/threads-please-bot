@@ -9,7 +9,6 @@ if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.PORT ||
 }
 
 var controller = Botkit.slackbot({
- json_file_store: './db_slackbutton_slash_command/',
  debug: true,
  clientSigningSecret: process.env.CLIENT_SIGNING_SECRET,
 })
